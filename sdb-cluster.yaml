@@ -1,0 +1,47 @@
+apiVersion: memsql.com/v1alpha1
+kind: MemsqlCluster
+metadata:
+  name: sdb-cluster
+spec:
+  # TODO: paste your license key from https://portal.singlestore.com here:
+  license: InsertSingleStoreLicensehere
+
+  # TODO: replace the default admin password for production environment
+  # select password("secret");
+  adminHashedPassword: "InsertHashedPasswordWithinTheseQuotes"
+  nodeImage:
+    repository: singlestore/node
+    tag: latest
+
+  # TODO: set greater than 1 to enable HA mode
+  redundancyLevel: 1
+  serviceSpec:
+    # type: "ClusterIP or NodePort"
+    objectMetaOverrides:
+      labels:
+        custom: label
+      annotations:
+        custom: annotations
+    
+  aggregatorSpec:
+    count: 1
+    height: 0.25
+    storageGB: 10
+    storageClass: default
+    objectMetaOverrides:
+      annotations:
+        optional: annotation
+      labels:
+        optional: label
+  leafSpec:
+    count: 1
+    height: 0.25
+    storageGB: 10
+    storageClass: default
+    objectMetaOverrides:
+      annotations:
+        optional: annotation
+      labels:
+  # usersSpec:
+  #   rootServiceUser: true
+  # clusterSpec: pause
